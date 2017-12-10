@@ -19,9 +19,14 @@ public class CharacterControllerLogic : MonoBehaviour {
 	private float direction = 0f;
 	private float horizontal = 0.0f;
 	private float vertical = 0.0f;
+	private bool peeing = false;
+
 	private AnimatorStateInfo stateInfo;
 
 	private int m_LocomotionId = 0;
+
+	public float peeRate = 1f;
+	public float drinkRate = 1f;
 
 	public Animator Animator {
 		get {
@@ -58,8 +63,22 @@ public class CharacterControllerLogic : MonoBehaviour {
 		if (animator) {
 			stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-			horizontal = Input.GetAxis("Horizontal");
-			vertical = Input.GetAxis("Vertical");
+			if (Input.GetKeyDown (KeyCode.Mouse0)) {
+				peeing = true;
+			}
+
+			if (Input.GetKeyUp (KeyCode.Mouse0)) {
+				peeing = false;
+			}
+
+			if (peeing) {
+				horizontal = 0.0f;
+				vertical = 0.0f;
+				SendMessage ("useBar", peeRate);
+			} else {
+				horizontal = Input.GetAxis ("Horizontal");
+				vertical = Input.GetAxis ("Vertical");
+			}
 
 			// Translate controls stick coordinates into world/cam/character space
 			StickToWorldspace(this.transform, gamecam.transform, ref direction, ref speed);

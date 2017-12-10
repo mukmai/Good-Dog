@@ -29,10 +29,10 @@ public class Menu : MonoBehaviour {
 		int greenScore = (int)( 512 * ( scores.z / totalScores ) );
 		int blueScore = (int)( 512 * ( scores.w / totalScores ) );
 
-		GUI.DrawTexture (new Rect (20, 20, yelowScore, 30), sliderYellow);
-		GUI.DrawTexture (new Rect (20, 60, redScore, 30), sliderRed);
-		GUI.DrawTexture (new Rect (20, 100, greenScore, 30), sliderGreen);
-		GUI.DrawTexture (new Rect (20, 140, blueScore, 30), sliderBlue);
+		GUI.DrawTexture (new Rect (20, 100, yelowScore, 30), sliderYellow);
+		//GUI.DrawTexture (new Rect (20, 60, redScore, 30), sliderRed);
+		//GUI.DrawTexture (new Rect (20, 100, greenScore, 30), sliderGreen);
+		//GUI.DrawTexture (new Rect (20, 140, blueScore, 30), sliderBlue);
 		// Debug.Log(yelowScore);
 		// Debug.Log(redScore);
 		// Debug.Log(greenScore);
