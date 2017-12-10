@@ -9,11 +9,11 @@
 		_SplatEdgeBumpWidth ("Splat Edge Bump Width", Range(1,10)) = 1.0
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
-	}	
+	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
 		LOD 200
-		
+
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows
@@ -46,7 +46,7 @@
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
-		
+
 		static const float _Clip = 0.5;
 
 		float3x3 cotangent_frame( float3 N, float3 p, float2 uv )
@@ -56,14 +56,14 @@
 		    float3 dp2 = ddy( p );
 		    float2 duv1 = ddx( uv );
 		    float2 duv2 = ddy( uv );
-		 
+
 		    // solve the linear system
 		    float3 dp2perp = cross( dp2, N );
 		    float3 dp1perp = cross( N, dp1 );
 		    float3 T = dp2perp * duv1.x + dp1perp * duv2.x;
 		    float3 B = dp2perp * duv1.y + dp1perp * duv2.y;
-		 
-		    // construct a scale-invariant frame 
+
+		    // construct a scale-invariant frame
 		    float invmax = rsqrt( max( dot(T,T), dot(B,B) ) );
 		    float3 TinvMax = normalize(T * invmax);
 		    float3 BinvMax =  normalize(B * invmax);
@@ -73,14 +73,14 @@
 
 		half3 perturb_normal( float3 localNormal, float3 N, float3 V, float2 uv )
 		{
-		    // assume N, the interpolated vertex normal and 
+		    // assume N, the interpolated vertex normal and
 		    // V, the view vector (vertex to eye)
 			float3x3 TBN = cotangent_frame( N, -V, uv );
 			return normalize( mul( TBN, localNormal ) );
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			
+
 			// Sample splat map texture with offsets
 			float4 splatSDF = tex2D (_SplatTex, IN.uv2_SplatTex);
 			float4 splatSDFx = tex2D (_SplatTex, IN.uv2_SplatTex + float2(_SplatTex_TexelSize.x,0) );
@@ -155,11 +155,11 @@
 			fixed4 c = MainTex * _Color;
 
 			// Lerp the color with the splat colors based on the splat mask channels
-			c.xyz = lerp( c.xyz, float3(1.0,0.5,0.0), splatMask.x );
+			c.xyz = lerp( c.xyz, float4(1.0,0.92,0.016,0.1), splatMask.x );
 			c.xyz = lerp( c.xyz, float3(1.0,0.0,0.0), splatMask.y );
 			c.xyz = lerp( c.xyz, float3(0.0,1.0,0.0), splatMask.z );
 			c.xyz = lerp( c.xyz, float3(0.0,0.0,1.0), splatMask.w );
-			
+
 			o.Albedo = c.rgb;
 			o.Normal = tanNormal;
 			o.Metallic = _Metallic;
@@ -168,6 +168,6 @@
 
 		}
 		ENDCG
-	} 
+	}
 	FallBack "Diffuse"
 }

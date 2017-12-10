@@ -28,9 +28,9 @@ public class SplatManagerSystem
 	public int splatsY;
 
 	public Vector4 scores;
-	
+
 	internal List<Splat> m_Splats = new List<Splat>();
-	
+
 	public void AddSplat (Splat splat)
 	{
 		//Debug.Log ("Adding Splat");
@@ -51,7 +51,7 @@ public class SplatManager : MonoBehaviour {
 	public RenderTexture splatTex;
 	public RenderTexture splatTexAlt;
 
-    public RenderTexture worldPosTex;
+  public RenderTexture worldPosTex;
 	public RenderTexture worldPosTexTemp;
 	public RenderTexture worldTangentTex;
 	public RenderTexture worldBinormalTex;
@@ -74,7 +74,7 @@ public class SplatManager : MonoBehaviour {
 		SplatManagerSystem.instance.splatsY = splatsY;
 
 		splatBlitMaterial = new Material (Shader.Find ("Splatoonity/SplatBlit"));
-		
+
 		splatTex = new RenderTexture (sizeX, sizeY, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
 		splatTex.Create ();
 		splatTexAlt = new RenderTexture (sizeX, sizeY, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
@@ -104,7 +104,7 @@ public class SplatManager : MonoBehaviour {
 		RT4.Create ();
 		Tex4 = new Texture2D (4, 4, TextureFormat.ARGB32, false);
 
-		
+
 		GameObject rtCameraObject = new GameObject ();
 		rtCameraObject.name = "rtCameraObject";
 		rtCameraObject.transform.position = Vector3.zero;
@@ -184,7 +184,7 @@ public class SplatManager : MonoBehaviour {
 
 
 	void BleedTextures() {
-		Graphics.Blit (Texture2D.blackTexture, splatTex, splatBlitMaterial, 1);		
+		Graphics.Blit (Texture2D.blackTexture, splatTex, splatBlitMaterial, 1);
 		Graphics.Blit (Texture2D.blackTexture, splatTexAlt, splatBlitMaterial, 1);
 
 		splatBlitMaterial.SetVector("_SplatTexSize", new Vector2( sizeX, sizeY ) );
@@ -207,7 +207,7 @@ public class SplatManager : MonoBehaviour {
 	void PaintSplats() {
 
 		if (SplatManagerSystem.instance.m_Splats.Count > 0) {
-			
+
 			Matrix4x4[] SplatMatrixArray = new Matrix4x4[10];
 			Vector4[] SplatScaleBiasArray = new Vector4[10];
 			Vector4[] SplatChannelMaskArray = new Vector4[10];
@@ -246,7 +246,7 @@ public class SplatManager : MonoBehaviour {
 		}
 
 	}
-		
+
 	// Update the scores by mipping the splat texture down to a 4x4 texture and sampling the pixels.
 	// Space the whole operation out over a few frames to keep everything running smoothly.
 	// Only update the scores once every second.
@@ -304,12 +304,12 @@ public class SplatManager : MonoBehaviour {
 		}
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
 		PaintSplats ();
 
 	}
-	
+
 }
