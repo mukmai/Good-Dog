@@ -7,6 +7,7 @@ public class SaturationBar : MonoBehaviour {
 
 	public Image currentBar;
 	public Text ratioText;
+	public ParticleLauncher penis;
 
 	public float min = 0;
 	public float max = 100;
@@ -29,13 +30,14 @@ public class SaturationBar : MonoBehaviour {
 		if (cur < min) {
 			cur = 0;
 		}
+		penis.saturation = cur;
 		UpdateBar ();
 	}
 
 	void getBar(float amount) {
 		cur += amount;
 		if (cur > max) {
-			cur = 0;
+			cur = max;
 		}
 		UpdateBar ();
 	}

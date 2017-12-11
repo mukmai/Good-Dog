@@ -6,14 +6,12 @@ public class ParticleLauncher : MonoBehaviour {
 
 	public ParticleSystem particleLauncher;
 	public ParticleSystem splatterParticles;
-
+	public Animator player;
+	public float saturation = 100f;
 
 	[SerializeField]
 	private ThirdPersonCamera gamecam;
 	SplatMakerExample splatter;
-
-	[SerializeField]
-	private CharacterControllerLogic player;
 
 	List<ParticleCollisionEvent> collisionEvents;
 
@@ -41,8 +39,7 @@ public class ParticleLauncher : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey(KeyCode.Mouse0)) {
-			
+		if (player.GetCurrentAnimatorStateInfo(0).IsName("Pee") && player.GetBool("Peeing") && saturation > 0) {
 			particleLauncher.Emit(1);
 		}
 	}

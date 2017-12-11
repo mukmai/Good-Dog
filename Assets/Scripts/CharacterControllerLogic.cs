@@ -27,6 +27,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 
 	public float peeRate = 1f;
 	public float drinkRate = 1f;
+	public float animationSpeed = 1f;
 
 	public Animator Animator {
 		get {
@@ -49,6 +50,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
+		animator.speed = animationSpeed;
 
 		if (animator.layerCount >= 2) {
 			animator.SetLayerWeight(1, 1);
@@ -103,13 +105,13 @@ public class CharacterControllerLogic : MonoBehaviour {
 
 		speedOut = stickDirection.sqrMagnitude;
 
-    // Get camera rotation
-    Vector3 CameraDirection = camera.forward;
-    CameraDirection.y = 0.0f; // kill Y
-    Quaternion referentialShift = Quaternion.FromToRotation(Vector3.forward, Vector3.Normalize(CameraDirection));
+	    // Get camera rotation
+	    Vector3 CameraDirection = camera.forward;
+	    CameraDirection.y = 0.0f; // kill Y
+	    Quaternion referentialShift = Quaternion.FromToRotation(Vector3.forward, Vector3.Normalize(CameraDirection));
 
-    // Convert joystick input in Worldspace coordinates
-    Vector3 moveDirection = referentialShift * stickDirection;
+	    // Convert joystick input in Worldspace coordinates
+	    Vector3 moveDirection = referentialShift * stickDirection;
 		Vector3 axisSign = Vector3.Cross(moveDirection, rootDirection);
 
 		Debug.DrawRay(new Vector3(root.position.x, root.position.y + 2f, root.position.z), moveDirection, Color.green);
