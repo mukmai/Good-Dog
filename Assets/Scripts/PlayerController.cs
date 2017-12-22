@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 
     public float zoomMin = -1.5f;
     public float zoomMax = -3f;
+	public float zoomInit = -2.25f;
 
     public float rotationSpeed = 5f;
 
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        zoom = -1.5f;
+		zoom = zoomInit;
 		animator = character.GetComponent<Animator> ();
 
 	}
@@ -107,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 
 		// Add gravity
 		if (!character.GetComponent<CharacterController> ().isGrounded) {
-			movement.y -= 30f * Time.deltaTime;
+			movement.y -= 400f * Time.deltaTime;
 		}
 
 		// Walk animation
