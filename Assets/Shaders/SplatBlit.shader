@@ -1,4 +1,4 @@
-﻿Shader "Splatoonity/SplatBlit"
+﻿Shader "SplatBlit"
 {
 	Properties
 	{

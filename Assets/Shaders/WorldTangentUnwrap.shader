@@ -1,4 +1,4 @@
-﻿Shader "Splatoonity/WorldTangentUnwrap"
+﻿Shader "WorldTangentUnwrap"
 {
 	SubShader
 	{

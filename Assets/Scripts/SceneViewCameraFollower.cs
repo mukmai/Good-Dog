@@ -1,6 +1,3 @@
-//Allows multiple SceneView cameras in the editor to be setup to follow gameobjects.
-//October 2012 - Joshua Berberick
- 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;

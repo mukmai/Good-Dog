@@ -11,14 +11,14 @@ public class ParticleLauncher : MonoBehaviour {
 
 	[SerializeField]
 	private ThirdPersonCamera gamecam;
-	SplatMakerExample splatter;
+	SplatMaker splatter;
 
 	List<ParticleCollisionEvent> collisionEvents;
 
 	// Use this for initialization
 	void Start () {
 		collisionEvents = new List<ParticleCollisionEvent>();
-		splatter = gamecam.GetComponent<SplatMakerExample> ();
+		splatter = gamecam.GetComponent<SplatMaker> ();
 	}
 
 	void OnParticleCollision(GameObject other) {

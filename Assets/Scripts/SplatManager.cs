@@ -51,7 +51,7 @@ public class SplatManager : MonoBehaviour {
 	public RenderTexture splatTex;
 	public RenderTexture splatTexAlt;
 
-  public RenderTexture worldPosTex;
+  	public RenderTexture worldPosTex;
 	public RenderTexture worldPosTexTemp;
 	public RenderTexture worldTangentTex;
 	public RenderTexture worldBinormalTex;
@@ -73,7 +73,7 @@ public class SplatManager : MonoBehaviour {
 		SplatManagerSystem.instance.splatsX = splatsX;
 		SplatManagerSystem.instance.splatsY = splatsY;
 
-		splatBlitMaterial = new Material (Shader.Find ("Splatoonity/SplatBlit"));
+		splatBlitMaterial = new Material (Shader.Find ("SplatBlit"));
 
 		splatTex = new RenderTexture (sizeX, sizeY, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
 		splatTex.Create ();
@@ -127,37 +127,15 @@ public class SplatManager : MonoBehaviour {
 
     }
 
-	/*
-	// Render textures using shader replacement.
-	// This will render all objects in the scene though.
-	// You could cull based on layers though.
-	void RenderTextures() {
-
-		Material worldPosMaterial = new Material (Shader.Find ("Splatoonity/WorldPosUnwrap"));
-		Material worldNormalMaterial = new Material (Shader.Find ("Splatoonity/WorldNormalUnwrap"));
-
-		rtCamera.targetTexture = worldPosTex;
-		rtCamera.RenderWithShader (Shader.Find ("Splatoonity/WorldPosUnwrap"), null);
-
-		rtCamera.targetTexture = worldTangentTex;
-		rtCamera.RenderWithShader (Shader.Find ("Splatoonity/WorldTangentUnwrap"), null);
-
-		rtCamera.targetTexture = worldBinormalTex;
-		rtCamera.RenderWithShader (Shader.Find ("Splatoonity/WorldBinormalUnwrap"), null);
-	}
-	*/
-
 	// Render textures with a command buffer.
-	// This is more flexible as you can explicitly add more objects to render without worying about layers.
-	// You could also have multiple instances for chunks of a scene.
 	void RenderTextures() {
 
 		// Set the culling mask to Nothing so we can draw renderers explicitly
 		rtCamera.cullingMask = LayerMask.NameToLayer("Nothing");
 
-		Material worldPosMaterial = new Material (Shader.Find ("Splatoonity/WorldPosUnwrap"));
-		Material worldTangentMaterial = new Material (Shader.Find ("Splatoonity/WorldTangentUnwrap"));
-		Material worldBiNormalMaterial = new Material (Shader.Find ("Splatoonity/WorldBinormalUnwrap"));
+		Material worldPosMaterial = new Material (Shader.Find ("WorldPosUnwrap"));
+		Material worldTangentMaterial = new Material (Shader.Find ("WorldTangentUnwrap"));
+		Material worldBiNormalMaterial = new Material (Shader.Find ("WorldBinormalUnwrap"));
 
 		// You could collect all objects you want rendererd and loop through DrawRenderer
 		// but for this example I'm just drawing the one renderer.
@@ -199,11 +177,7 @@ public class SplatManager : MonoBehaviour {
 	}
 
 
-	// Blit the splats
-	// This is similar to how a deferred decal would work
-	// except instead of getting the world position from the depth
-	// use the world position that is stored in the texture.
-	// Each splat is tested against the entire world position texture.
+	// Blit the splats using the world position that is stored in the texture.
 	void PaintSplats() {
 
 		if (SplatManagerSystem.instance.m_Splats.Count > 0) {
@@ -230,7 +204,6 @@ public class SplatManager : MonoBehaviour {
 			splatBlitMaterial.SetTexture ("_WorldPosTex", worldPosTex);
 
 			// Ping pong between the buffers to properly blend splats.
-			// If this were a compute shader you could just update one buffer.
 			if (evenFrame) {
 				splatBlitMaterial.SetTexture ("_LastSplatTex", splatTexAlt);
 				Graphics.Blit (splatTexture, splatTex, splatBlitMaterial, 0);
@@ -249,7 +222,6 @@ public class SplatManager : MonoBehaviour {
 
 	// Update the scores by mipping the splat texture down to a 4x4 texture and sampling the pixels.
 	// Space the whole operation out over a few frames to keep everything running smoothly.
-	// Only update the scores once every second.
 	IEnumerator UpdateScores() {
 
 		while( true ){
